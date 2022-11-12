@@ -11,7 +11,7 @@ def read_text(path: str = 'text/text.txt'):
 
     return text
 
-def get_answer(question: str) -> Dict[str:str]:
+def get_answer( question: str) -> Dict[str:str]:
 
     context = read_text()
 
@@ -19,5 +19,5 @@ def get_answer(question: str) -> Dict[str:str]:
     'question': question,
     'context': context
     }
-    
+
     return nlp(QA_input)
