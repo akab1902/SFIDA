@@ -27,29 +27,25 @@ app = Flask(__name__)
 DATABASE_DIRECTORY = Path(os.getcwd()) / "database"
 UPLOAD_DIRECTORY = DATABASE_DIRECTORY / "upload_files"
 GENERATE_DIRECTORY = DATABASE_DIRECTORY / "generate_files"
+TEXT_DIRECTORY = DATABASE_DIRECTORY / 'text'
 
 @app.route('/uploadreport', methods=['POST'])
 def uploadreport():
     file = request.files['File']
-    # file_bin = file.read()
-    reportName = request.form.get('reportName')
-    reportType = request.form.get('reportType')
-    reportDescription = request.form.get('reportDescription')
-    reportYear = request.form.get('reportYear')
-    if not reportName or reportName == '':
-        now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        reportName = f'file-{now}'
+    # file_bin = file.read()    
+    
     filename = file.filename
-    if 'apple' in filename:
-        reportName = filename
-    else:
-        filetype = filename.split('.')[-1]
-        reportName += ('.' + filetype)
+    
     werkzeug_file = FileStorage(file)
-    path = os.path.join(UPLOAD_DIRECTORY, reportName)
+    path = os.path.join(UPLOAD_DIRECTORY, filename)
     werkzeug_file.save(path)
-    esg_score = file_scraper.get_esg_score(path, filetype)
-    response = Response(json.dumps(esg_score))
+
+    text = file_scraper.parse_pdf(path)
+
+    with open(TEXT_DIRECTORY / 'text.txt', 'w') as f:
+        f.write(text)
+    
+    response = Response(1)
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 

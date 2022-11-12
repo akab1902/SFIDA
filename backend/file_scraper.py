@@ -44,7 +44,14 @@ def scrape_pdf(path):
 
     return text
 
+def parse_pdf(path:str) -> str:
+    text = ''
+    reader = PdfReader(path)
+    for page_num in range(2, len(reader.pages)):
+        page = reader.pages[page_num]
+        text += page.extract_text() + '\n'
 
+    return text
 
 if __name__ == '__main__':
     pdfs_folder = UPLOAD_DIRECTORY
