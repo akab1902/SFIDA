@@ -21,12 +21,12 @@ class Admin extends React.Component {
     return (
       <>
         <Sidebar />
-        <div className="relative md:ml-64 bg-blueGray-100">
+        <div className="relative md:ml-64 bg-blueGray-100" >
           <AdminNavbar />
           {/* Header */}
           <HeaderStats />
-          <div className="px-4 md:px-10 mx-auto w-full -m-24">
-            <Switch>
+          <div className="px-4 md:px-10 mx-auto w-full -m-24" >
+            <Switch >
               <Route path="/admin/upload" exact component={Upload} />
               <Route path="/admin/charity" exact component={Charity} />
               <Route path="/admin/company_page" exact component={CompanyPage} />

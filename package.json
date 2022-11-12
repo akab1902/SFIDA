@@ -6,7 +6,10 @@
   "homepage": "https://alibimelis.github.io/Outliers_FinTech_CityHack22",
   "proxy": "http://127.0.0.1:5000/",
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@fortawesome/fontawesome-free": "5.15.3",
+    "@mui/material": "^5.10.13",
     "@popperjs/core": "2.9.1",
     "@tailwindcss/forms": "0.2.1",
     "autoprefixer": "10.2.5",
