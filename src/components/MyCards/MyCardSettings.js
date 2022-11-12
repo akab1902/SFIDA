@@ -87,7 +87,6 @@ export default class MyCardSettings extends React.Component {
       selectedFile: event.target.files[0],
       isFilePicked: true,
     });
-    this.handleSubmit();
   };
 
 
@@ -135,13 +134,13 @@ export default class MyCardSettings extends React.Component {
                 </div>
               </div>
               {/* <hr className="mt-6 border-b-1 border-blueGray-300" /> */}
-              {/* <button
+              <button
                 className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={this.handleSubmit}
               >
                 Submit
-              </button> */}
+              </button>
             </form>
             {this.state.openBackdrop ? (
 
