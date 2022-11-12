@@ -47,15 +47,16 @@ def uploadreport():
     
     response = Response(json.dumps(1))
     response.headers["Access-Control-Allow-Origin"] = "*"
+
     return response
 
-@app.route("/question", method=['POST'])
-def model_prediction():
+#@app.route("/question", method=['POST'])
+#def model_prediction():
 
-    question = request.form.get('question')
-    result = model.get_answer(question)
+#    question = request.form.get('question')
+#    result = model.get_answer(question)
 
-    return json.dumps(result)
+#    return json.dumps(result)
     
 
 
