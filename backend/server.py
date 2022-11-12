@@ -34,18 +34,15 @@ TEXT_DIRECTORY = DATABASE_DIRECTORY / 'text'
 @app.route('/uploadreport', methods=['POST'])
 def uploadreport():
     file = request.files['File']
-    # file_bin = file.read()    
-    
     filename = file.filename
     
     werkzeug_file = FileStorage(file)
-    path = os.path.join(UPLOAD_DIRECTORY, filename)
+    path = UPLOAD_DIRECTORY / filename
     werkzeug_file.stream.seek(0)
     werkzeug_file.save(path)
 
     text = file_scraper.parse_pdf(path)
-
-    with open(TEXT_DIRECTORY / 'text.txt', 'w') as f:
+    with open(TEXT_DIRECTORY / 'text.txt', 'w', encoding="utf-8") as f:
         f.write(text)
     
     response = Response(json.dumps(1))
