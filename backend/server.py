@@ -11,11 +11,11 @@ from flask import Flask, jsonify, Response
 from flask import request
 import os
 from pathlib import Path
-from file_scraper import parse_pdf
+import file_scraper
 from werkzeug.datastructures import FileStorage
 import datetime
 
-#from model import get_answer
+import model
 
 def numMarketcap(x):
     try:
@@ -32,26 +32,34 @@ GENERATE_DIRECTORY = DATABASE_DIRECTORY / "generate_files"
 TEXT_DIRECTORY = DATABASE_DIRECTORY / 'text'
 
 @app.route('/uploadreport', methods=['POST'])
-
 def uploadreport():
     file = request.files['File']
-    file_bin = file.read()    
+    # file_bin = file.read()    
     
     filename = file.filename
-    print(filename, type(filename))
+    
     werkzeug_file = FileStorage(file)
-    path = str(UPLOAD_DIRECTORY / filename)
-    werkzeug_file.stream.seek(0)
+    path = os.path.join(UPLOAD_DIRECTORY, filename)
     werkzeug_file.save(path)
 
-    text = parse_pdf(path)
+    text = file_scraper.parse_pdf(path)
 
-    with open(TEXT_DIRECTORY / 'text.txt', 'w', encoding="utf-8") as f:
+    with open(TEXT_DIRECTORY / 'text.txt', 'w') as f:
         f.write(text)
     
-    response = Response(json.dumps(1))
+    response = Response(1)
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
+
+@app.route("/question", method=['POST'])
+def model_prediction():
+
+    question = request.form.get('question')
+    result = model.get_answer(question)
+
+    return json.dumps(result)
+    
+
 
 @app.route("/dashboard<count>")
 def topNcompanies(count):
@@ -80,7 +88,7 @@ def companyPage(tickername):
     quarterly_financials = quarterly_financials.dropna(axis=1)
     quarterly_financials = [row.to_dict() for index,row in quarterly_financials.iterrows()]
 
-    stock_price = si.get_data( tickername, interval='1mo').reset_index()
+    stock_price = si.get_data(tickername, interval='1mo').reset_index()
     stock_price['index'] = stock_price['index'].apply(lambda x: x.isoformat())
     stock_price = [row.to_dict() for index,row in stock_price.iterrows()]
     company = {'info': company_info['Value'].to_dict(), 'quarterly': quarterly_financials, 'price':stock_price} 
