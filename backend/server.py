@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import requests
 from datetime import date
 import pandas as pd
@@ -11,9 +12,11 @@ from flask import Flask, jsonify, Response
 from flask import request
 import os
 from pathlib import Path
-import file_scraper
+from file_scraper import parse_pdf
 from werkzeug.datastructures import FileStorage
 import datetime
+
+import model
 
 def numMarketcap(x):
     try:
@@ -23,35 +26,44 @@ def numMarketcap(x):
 
 
 app = Flask(__name__)
+CORS(app)
 
 DATABASE_DIRECTORY = Path(os.getcwd()) / "database"
 UPLOAD_DIRECTORY = DATABASE_DIRECTORY / "upload_files"
 GENERATE_DIRECTORY = DATABASE_DIRECTORY / "generate_files"
+TEXT_DIRECTORY = DATABASE_DIRECTORY / 'text'
 
 @app.route('/uploadreport', methods=['POST'])
+
 def uploadreport():
     file = request.files['File']
-    # file_bin = file.read()
-    reportName = request.form.get('reportName')
-    reportType = request.form.get('reportType')
-    reportDescription = request.form.get('reportDescription')
-    reportYear = request.form.get('reportYear')
-    if not reportName or reportName == '':
-        now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        reportName = f'file-{now}'
+    file_bin = file.read()    
+    
     filename = file.filename
-    if 'apple' in filename:
-        reportName = filename
-    else:
-        filetype = filename.split('.')[-1]
-        reportName += ('.' + filetype)
+    print(filename, type(filename))
     werkzeug_file = FileStorage(file)
-    path = os.path.join(UPLOAD_DIRECTORY, reportName)
+    path = str(UPLOAD_DIRECTORY / filename)
+    werkzeug_file.stream.seek(0)
     werkzeug_file.save(path)
-    esg_score = file_scraper.get_esg_score(path, filetype)
-    response = Response(json.dumps(esg_score))
-    response.headers["Access-Control-Allow-Origin"] = "*"
+
+    text = parse_pdf(path)
+
+    with open(TEXT_DIRECTORY / 'text.txt', 'w', encoding="utf-8") as f:
+        f.write(text)
+    
+    response = Response(json.dumps(1))
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+@app.route("/question", methods=['POST'])
+def model_prediction():
+
+   question = request.form.get('Question')
+   result = model.get_answer(question)
+   print(result)
+   response = Response(json.dumps(result))
+   response.headers.add('Access-Control-Allow-Origin', '*')
+   return response
 
 @app.route("/dashboard<count>")
 def topNcompanies(count):

@@ -76,7 +76,7 @@ export default class MyCardTable extends React.Component {
     );
   }
 
-  generateRows(companies) {
+  FgenerateRows(companies) {
     let rows = [];
     const sorted = companies.sort(this.state.filter);
     sorted.forEach((com) => {
