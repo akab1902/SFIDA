@@ -40,6 +40,7 @@ def uploadreport():
     
     werkzeug_file = FileStorage(file)
     path = os.path.join(UPLOAD_DIRECTORY, filename)
+    werkzeug_file.stream.seek(0)
     werkzeug_file.save(path)
 
     text = file_scraper.parse_pdf(path)
@@ -47,7 +48,7 @@ def uploadreport():
     with open(TEXT_DIRECTORY / 'text.txt', 'w') as f:
         f.write(text)
     
-    response = Response(1)
+    response = Response(json.dumps(1))
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
