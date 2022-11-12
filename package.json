@@ -1,0 +1,63 @@
+{
+  "name": "sfida",
+  "version": "1.0.0",
+  "description": "Website created for CityHack22 by Outliers team using Creative Tim template.",
+  "private": true,
+  "homepage": "https://alibimelis.github.io/Outliers_FinTech_CityHack22",
+  "proxy": "http://127.0.0.1:5000/",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.15.3",
+    "@popperjs/core": "2.9.1",
+    "@tailwindcss/forms": "0.2.1",
+    "autoprefixer": "10.2.5",
+    "axios": "^0.25.0",
+    "chart.js": "2.9.4",
+    "country-flag-icons": "^1.4.20",
+    "gulp": "4.0.2",
+    "gulp-append-prepend": "1.0.8",
+    "postcss": "8.2.8",
+    "react": "17.0.1",
+    "react-circular-progressbar": "^2.0.4",
+    "react-device-detect": "^2.1.2",
+    "react-dom": "17.0.1",
+    "react-loader-spinner": "^5.1.0",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3",
+    "react-sticky": "^6.0.3",
+    "tachyons": "^4.12.0",
+    "tailwindcss": "2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && gulp licenses",
+    "test": "react-scripts test",
+    "start-backend": "cd backend && env/bin/flask run --no-debugger",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm start",
+    "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "optionalDependencies": {
+    "typescript": "4.2.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  }
+}
