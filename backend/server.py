@@ -15,6 +15,8 @@ import file_scraper
 from werkzeug.datastructures import FileStorage
 import datetime
 
+from model import get_answer
+
 def numMarketcap(x):
     try:
         return numerize.numerize(x)
