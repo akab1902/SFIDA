@@ -21,7 +21,7 @@ class Admin extends React.Component {
     return (
       <>
         <Sidebar />
-        <div className="relative md:ml-64 bg-blueGray-100" >
+        <div className="relative md:ml-64 bg-blueGray-100 min-h-screen" >
           <AdminNavbar />
           {/* Header */}
           <HeaderStats />
@@ -34,7 +34,7 @@ class Admin extends React.Component {
               <Route path="/admin/inbox" exact component={Inbox} />
               <Redirect from="/admin" to="/admin/dashboard" />
             </Switch>
-            <FooterAdmin />
+            <FooterAdmin/>
           </div>
         </div>
       </>
