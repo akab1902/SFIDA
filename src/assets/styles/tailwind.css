@@ -3053,8 +3053,7 @@ input[type="file"] {
 }
 .custom-file-upload {
   font-family: inherit;
-  font-weight: 600;
-  font-size: 25px;
+  font-size: 20px;
   border: 1px solid #ccc;
   display: inline-block;
   padding: 6px 12px;
@@ -3080,13 +3079,13 @@ input[type="file"] {
 }
 
 .submitclick{
-  font-weight: 600;
-  font-size: 25px;
+
+  font-size: 20px;
   border: 1px solid #ccc;
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  background-color: rgba(14, 165, 233);
+  background-color: rgb(78, 199, 255);
   color: white;
   border-radius: 0.5rem;
 }
@@ -3094,5 +3093,6 @@ input[type="file"] {
 .wluxa {
   transition: transform 330ms ease-in-out;
 }
+
 
 

@@ -29,6 +29,8 @@ export default class MyCardSettings extends React.Component {
       sendText: "",
       openFileLoad: false,
       openBackdrop2: false,
+      uploadLabel: "UPLOAD",
+      theQuestion: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -66,7 +68,7 @@ export default class MyCardSettings extends React.Component {
   }
 
   handleSendText(event) {
-    this.setState({ sendText: event.target.value });
+    this.setState({ sendText: event.target.value, theQuestion: event.target.value });
   }
 
   handleSubmit(event) {
@@ -99,12 +101,18 @@ export default class MyCardSettings extends React.Component {
   }
 
   changeHandler = (event) => {
+    const myLabel = event.target.files[0].name
     this.setState({
       selectedFile: event.target.files[0],
       isFilePicked: true,
+      uploadLabel: myLabel
     });
 
   };
+
+  handleSuggest1 = () => {
+    this.setState({theQuestion: "What is iPhone"});
+  }
 
 
   render() {
@@ -150,14 +158,14 @@ export default class MyCardSettings extends React.Component {
                       // <p>No file is selected</p>
                     )} */}
                     <label htmlFor="file-upload" className="custom-file-upload">
-                      <FileUploadIcon sx={{ fontSize: 30 }} /> UPLOAD
+                      <FileUploadIcon sx={{ fontSize: 25 }} /> {this.state.uploadLabel}
                     </label>
                     <input id="file-upload" type="file" onChange={this.changeHandler} />
                     <button
                       className="submitclick"
                       type="button"
                       onClick={this.handleSubmit}
-                      style={{ marginLeft: 15, fontWeight: "600" }}
+                      style={{ marginLeft: 15 }}
                     >
                       SUBMIT
                     </button>
@@ -185,7 +193,7 @@ export default class MyCardSettings extends React.Component {
                 <div>
                   <Grow in={this.state.appearTextfield} style={{ transformOrigin: '0 0 0' }}
                     {...(this.state.appearTextfield ? { timeout: 1000 } : {})}>
-                    <TextField placeholder="Ask Question..." variant="outlined" style={{ width: "50%", marginRight: 20, backgroundColor: "white" }} onChange={this.handleSendText} />
+                    <TextField value = {this.state.theQuestion} placeholder="Ask Question..." variant="outlined" style={{ width: "50%", marginRight: 20, backgroundColor: "white" }} onChange={this.handleSendText} />
                   </Grow>
                   <Grow in={this.state.appearTextfield} style={{ transformOrigin: '0 0 0' }}
                     {...(this.state.appearTextfield ? { timeout: 1000 } : {})}>
@@ -194,6 +202,17 @@ export default class MyCardSettings extends React.Component {
                       type="button"
                       onClick={this.handleAsk}>
                       ASK
+                    </button>
+                  </Grow>
+                  <br></br>
+                  <Grow in={this.state.appearTextfield} style={{ transformOrigin: '0 0 0' }}
+                    {...(this.state.appearTextfield ? { timeout: 1000 } : {})}>
+                    <button
+                      className=" text-gray active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={this.handleSuggest1}
+                      style={{margin:10}}>
+                      What is iPhone?
                     </button>
                   </Grow>
                   {this.state.askPressed ? (
@@ -206,7 +225,7 @@ export default class MyCardSettings extends React.Component {
                       ) : (
 
                         <Grow in={this.state.appearTextfield} style={{ transformOrigin: '0 0 0' }} {...(this.state.appearTextfield ? { timeout: 1000 } : {})}>
-                          <Alert severity="info" style={{ width: "50%", margin: "auto",  marginTop: 40 }}>
+                          <Alert severity="info" style={{ width: "50%", margin: "auto", marginTop: 40 }}>
                             <AlertTitle >{this.state.receiveText}</AlertTitle>
                           </Alert>
                         </Grow>
